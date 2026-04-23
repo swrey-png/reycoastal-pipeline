@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rey Coastal — Pipeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink2: #4a4740;
+    --ink3: #8a877f;
+    --paper: #f8f5f0;
+    --paper2: #f0ece4;
+    --paper3: #e8e3d8;
+    --gold: #b8922a;
+    --gold-light: #f5e9cc;
+    --teal: #1d6e5a;
+    --teal-light: #d4ede6;
+    --signal: #c0392b;
+    --signal-light: #faeaea;
+    --radius: 10px;
+    --font-display: 'DM Serif Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  .header {
+    padding: 20px 20px 0;
+    border-bottom: 1px solid var(--paper3);
+    margin-bottom: 16px;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+
+  .wordmark span { color: var(--gold); }
+
+  .header-sub {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 14px;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 14px;
+    overflow-x: auto;
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 2px; min-width: fit-content; }
+  .stat-num { font-family: var(--font-display); font-size: 22px; color: var(--ink); line-height: 1; }
+  .stat-label { font-size: 10px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink3); }
+  .stat-divider { width: 1px; background: var(--paper3); align-self: stretch; }
+
+  .add-btn {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--teal);
+    background: var(--teal-light);
+    border: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    align-self: center;
+    white-space: nowrap;
+  }
+  .add-btn:hover { opacity: 0.8; }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 0 16px 32px;
+    overflow-x: auto;
+  }
+
+  .column { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+
+  .col-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: var(--paper2);
+    border-radius: var(--radius);
+    border: 1px solid var(--paper3);
+    position: sticky;
+    top: 0;
+  }
+
+  .col-title { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--ink2); }
+  .col-count { font-size: 11px; font-weight: 600; color: var(--ink3); background: var(--paper3); padding: 1px 7px; border-radius: 20px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--paper3);
+    border-radius: var(--radius);
+    padding: 12px;
+    cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.12s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+
+  .card-stage-bar { position: absolute; top: 0; left: 0; right: 0; height: 2.5px; }
+  .card-company { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3; margin-top: 4px; margin-bottom: 2px; }
+  .card-contact { font-size: 11px; color: var(--ink3); margin-bottom: 8px; }
+  .card-meta { display: flex; align-items: center; justify-content: space-between; gap: 4px; flex-wrap: wrap; }
+
+  .pill { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.3px; white-space: nowrap; }
+  .pill-service { background: var(--gold-light); color: var(--gold); }
+  .pill-industry { background: var(--paper2); color: var(--ink2); }
+
+  .card-value { font-family: var(--font-display); font-size: 14px; color: var(--ink); }
+  .card-date { font-size: 10px; color: var(--ink3); margin-top: 6px; }
+
+  .staffing-flag {
+    display: flex; align-items: center; gap: 5px;
+    margin-top: 8px; padding: 5px 8px;
+    background: var(--signal-light);
+    border-radius: 6px;
+    border: 1px solid #f5c6c4;
+  }
+
+  .staffing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--signal); flex-shrink: 0;
+    animation: pulse 1.8s infinite;
+  }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .staffing-flag-text { font-size: 10px; font-weight: 600; color: var(--signal); letter-spacing: 0.3px; }
+
+  /* Modal */
+  .modal-bg {
+    display: none; position: fixed; inset: 0;
+    background: rgba(26,24,20,0.55); z-index: 100;
+    align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal-bg.open { display: flex; }
+
+  .modal {
+    background: var(--paper); border-radius: 14px;
+    padding: 24px; width: 100%; max-width: 440px;
+    max-height: 90vh; overflow-y: auto;
+    border: 1px solid var(--paper3);
+  }
+
+  .modal h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 4px; }
+  .modal-sub { font-size: 12px; color: var(--ink3); margin-bottom: 20px; }
+
+  .form-row { margin-bottom: 14px; }
+  .form-label { font-size: 11px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--ink2); margin-bottom: 5px; display: block; }
+
+  .form-input, .form-select, .notes-area {
+    width: 100%; font-family: var(--font-body); font-size: 13px;
+    padding: 9px 12px; border: 1px solid var(--paper3);
+    border-radius: 7px; background: #fff; color: var(--ink);
+    outline: none; transition: border-color 0.15s;
+  }
+  .form-input:focus, .form-select:focus, .notes-area:focus { border-color: var(--teal); }
+  .notes-area { resize: vertical; min-height: 80px; }
+
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+
+  .checkbox-row {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+    padding: 10px 12px; background: var(--signal-light);
+    border-radius: 7px; border: 1px solid #f5c6c4;
+  }
+  .checkbox-row input { cursor: pointer; accent-color: var(--signal); }
+  .checkbox-row label { font-size: 12px; font-weight: 500; color: var(--signal); cursor: pointer; }
+
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+
+  .btn-cancel {
+    font-family: var(--font-body); font-size: 13px; font-weight: 500;
+    padding: 9px 18px; border: 1px solid var(--paper3);
+    border-radius: 7px; background: transparent; color: var(--ink2); cursor: pointer;
+  }
+  .btn-save {
+    font-family: var(--font-body); font-size: 13px; font-weight: 600;
+    padding: 9px 18px; border: none; border-radius: 7px;
+    background: var(--teal); color: #fff; cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn-save:hover { opacity: 0.88; }
+
+  .detail-section { margin-bottom: 14px; }
+  .detail-section-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--ink3); margin-bottom: 5px; }
+  .detail-value { font-size: 14px; color: var(--ink); }
+
+  .stage-select-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .stage-chip {
+    font-size: 11px; font-weight: 600; padding: 4px 12px;
+    border-radius: 20px; border: 1px solid var(--paper3);
+    background: var(--paper2); color: var(--ink2); cursor: pointer; transition: all 0.12s;
+  }
+  .stage-chip.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+  .empty-col {
+    border: 1.5px dashed var(--paper3); border-radius: var(--radius);
+    padding: 16px 10px; text-align: center;
+    font-size: 11px; color: var(--ink3); letter-spacing: 0.3px;
+  }
+
+  .delete-btn {
+    font-size: 11px; font-weight: 500; color: var(--signal);
+    background: none; border: none; cursor: pointer;
+    padding: 0; text-decoration: underline; opacity: 0.7;
+  }
+  .delete-btn:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="wordmark">Rey<span>Coastal</span></div>
+    <button class="add-btn" onclick="openAdd()">+ Add prospect</button>
+  </div>
+  <div class="header-sub">Business development pipeline</div>
+  <div class="stats-bar" id="stats-bar"></div>
+</div>
+
+<div class="board" id="board"></div>
+
+<!-- Add modal -->
+<div class="modal-bg" id="add-modal">
+  <div class="modal">
+    <h3>New prospect</h3>
+    <div class="modal-sub">Add a company to the pipeline</div>
+    <div class="form-row">
+      <label class="form-label">Company name</label>
+      <input class="form-input" id="f-company" placeholder="Acme Corp">
+    </div>
+    <div class="form-row-2">
+      <div>
+        <label class="form-label">Contact name</label>
+        <input class="form-input" id="f-contact" placeholder="Jane Smith">
+      </div>
+      <div>
+        <label class="form-label">Title</label>
+        <input class="form-input" id="f-title" placeholder="HR Manager">
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div>
+        <label class="form-label">Industry</label>
+        <select class="form-select" id="f-industry">
+          <option value="Light Manufacturing">Light Manufacturing</option>
+          <option value="Distribution / Logistics">Distribution / Logistics</option>
+          <option value="Admin / Professional Services">Admin / Professional Services</option>
+          <option value="Finance / Accounting">Finance / Accounting</option>
+          <option value="Technology Services">Technology Services</option>
+          <option value="Healthcare Admin">Healthcare Admin</option>
+          <option value="Retail Operations">Retail Operations</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Employees</label>
+        <select class="form-select" id="f-size">
+          <option value="5–25">5–25</option>
+          <option value="26–75">26–75</option>
+          <option value="76–200">76–200</option>
+          <option value="201–400">201–400</option>
+          <option value="400+">400+</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div>
+        <label class="form-label">Service tier</label>
+        <select class="form-select" id="f-service">
+          <option value="Hiring Audit — $750">Hiring Audit — $750</option>
+          <option value="Candidate Eval — $1,200">Candidate Eval — $1,200</option>
+          <option value="Monthly Advisory — $1,500/mo">Monthly Advisory — $1,500/mo</option>
+          <option value="TBD">TBD</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Source</label>
+        <select class="form-select" id="f-source">
+          <option value="LinkedIn outreach">LinkedIn outreach</option>
+          <option value="Referral">Referral</option>
+          <option value="Inbound (website)">Inbound (website)</option>
+          <option value="Event / networking">Event / networking</option>
+          <option value="Cold outreach">Cold outreach</option>
+        </select>
+      </div>
+    </div>
+    <div class="checkbox-row">
+      <input type="checkbox" id="f-staffing">
+      <label for="f-staffing">🚨 PrideStaff staffing signal — company likely hires in core position types</label>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes</label>
+      <textarea class="notes-area" id="f-notes" placeholder="Pain points, timing, referral context..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('add-modal')">Cancel</button>
+      <button class="btn-save" onclick="saveProspect()">Add to pipeline</button>
+    </div>
+  </div>
+</div>
+
+<!-- Detail modal -->
+<div class="modal-bg" id="detail-modal">
+  <div class="modal" id="detail-content"></div>
+</div>
+
+<script>
+const STAGES = [
+  { id: 'prospect',  label: 'Prospect',     color: '#b8922a' },
+  { id: 'outreach',  label: 'Outreach',     color: '#1d6e5a' },
+  { id: 'discovery', label: 'Discovery',    color: '#1a6b9a' },
+  { id: 'proposal',  label: 'Proposal',     color: '#7a4a9e' },
+  { id: 'closed',    label: 'Closed / Won', color: '#2a7a4a' },
+];
+
+const SEED = [
+  { id:1, company:'Meridian Packaging', contact:'Laura Chen', title:'Ops Director', industry:'Light Manufacturing', size:'76–200', service:'Hiring Audit — $750', source:'LinkedIn outreach', stage:'discovery', staffingSignal:true, notes:'Hiring 3 roles at once, no process. Mentioned bad hires last year.', date:'Apr 18' },
+  { id:2, company:'Torrey Pines Logistics', contact:'Marcus Webb', title:'VP HR', industry:'Distribution / Logistics', size:'76–200', service:'Monthly Advisory — $1,500/mo', source:'Referral', stage:'proposal', staffingSignal:true, notes:'Fast-growing. 20+ warehouse hires per year. Discovery call went well.', date:'Apr 20' },
+  { id:3, company:'Coastal Credit Union', contact:'Sandra Flores', title:'HR Manager', industry:'Finance / Accounting', size:'26–75', service:'Hiring Audit — $750', source:'Inbound (website)', stage:'outreach', staffingSignal:false, notes:'Submitted Google Form intake. Follow up Tuesday.', date:'Apr 22' },
+  { id:4, company:'Sunbelt Assemblies', contact:'Derek Tran', title:'Plant Manager', industry:'Light Manufacturing', size:'201–400', service:'Candidate Eval — $1,200', source:'Cold outreach', stage:'prospect', staffingSignal:true, notes:'Found on LinkedIn. Assembly + QC hiring year-round.', date:'Apr 21' },
+  { id:5, company:'Pacific Admin Group', contact:'Rena Okafor', title:'CEO', industry:'Admin / Professional Services', size:'5–25', service:'Hiring Audit — $750', source:'Event / networking', stage:'closed', staffingSignal:false, notes:'Audit delivered Apr 15. Strong results. Advisory upsell opportunity.', date:'Apr 15' },
+  { id:6, company:'Vista Distribution', contact:'Tom Harlow', title:'GM', industry:'Distribution / Logistics', size:'76–200', service:'Hiring Audit — $750', source:'LinkedIn outreach', stage:'prospect', staffingSignal:true, notes:'Forklift and receiving roles open constantly. Great PS fit.', date:'Apr 23' },
+];
+
+let prospects = JSON.parse(localStorage.getItem('rc_pipeline') || 'null') || SEED;
+let nextId = Math.max(...prospects.map(p => p.id)) + 1;
+let activeDetail = null;
+
+function save() {
+  try { localStorage.setItem('rc_pipeline', JSON.stringify(prospects)); } catch(e) {}
+}
+
+function openAdd() { document.getElementById('add-modal').classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function saveProspect() {
+  const company = document.getElementById('f-company').value.trim();
+  if (!company) { document.getElementById('f-company').focus(); return; }
+  prospects.push({
+    id: nextId++,
+    company,
+    contact: document.getElementById('f-contact').value.trim(),
+    title: document.getElementById('f-title').value.trim(),
+    industry: document.getElementById('f-industry').value,
+    size: document.getElementById('f-size').value,
+    service: document.getElementById('f-service').value,
+    source: document.getElementById('f-source').value,
+    stage: 'prospect',
+    staffingSignal: document.getElementById('f-staffing').checked,
+    notes: document.getElementById('f-notes').value.trim(),
+    date: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' }),
+  });
+  save();
+  closeModal('add-modal');
+  ['f-company','f-contact','f-title','f-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-staffing').checked = false;
+  render();
+}
+
+function openDetail(id) {
+  activeDetail = id;
+  renderDetail();
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+function renderDetail() {
+  const p = prospects.find(x => x.id === activeDetail);
+  if (!p) return;
+  const chips = STAGES.map(s =>
+    `<span class="stage-chip ${s.id === p.stage ? 'active' : ''}" onclick="setStage(${p.id},'${s.id}')">${s.label}</span>`
+  ).join('');
+  document.getElementById('detail-content').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+      <div>
+        <h3>${p.company}</h3>
+        <div style="font-size:12px;color:var(--ink3)">${p.contact}${p.title ? ' · '+p.title : ''}</div>
+      </div>
+      <button class="btn-cancel" onclick="closeModal('detail-modal')" style="padding:6px 12px;font-size:12px">Close</button>
+    </div>
+    ${p.staffingSignal ? `<div class="staffing-flag" style="margin-bottom:14px"><div class="staffing-dot"></div><span class="staffing-flag-text">PrideStaff staffing signal — core position types likely</span></div>` : ''}
+    <div class="detail-section">
+      <div class="detail-section-label">Move stage</div>
+      <div class="stage-select-row">${chips}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="detail-section"><div class="detail-section-label">Industry</div><div class="detail-value">${p.industry}</div></div>
+      <div class="detail-section"><div class="detail-section-label">Size</div><div class="detail-value">${p.size} employees</div></div>
+      <div class="detail-section"><div class="detail-section-label">Service</div><div class="detail-value" style="font-size:12px">${p.service}</div></div>
+      <div class="detail-section"><div class="detail-section-label">Source</div><div class="detail-value" style="font-size:12px">${p.source}</div></div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes</label>
+      <textarea class="notes-area" id="detail-notes" oninput="updateNotes(${p.id},this.value)">${p.notes||''}</textarea>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+      <div class="checkbox-row" style="margin:0;flex:1;margin-right:12px">
+        <input type="checkbox" id="detail-staffing" ${p.staffingSignal?'checked':''} onchange="toggleStaffing(${p.id},this.checked)">
+        <label for="detail-staffing" style="font-size:11px">PrideStaff staffing signal</label>
+      </div>
+      <button class="delete-btn" onclick="deleteProspect(${p.id})">Remove</button>
+    </div>`;
+}
+
+function setStage(id, stage) {
+  const p = prospects.find(x => x.id === id);
+  if (p) { p.stage = stage; save(); render(); renderDetail(); }
+}
+
+function updateNotes(id, val) {
+  const p = prospects.find(x => x.id === id);
+  if (p) { p.notes = val; save(); }
+}
+
+function toggleStaffing(id, val) {
+  const p = prospects.find(x => x.id === id);
+  if (p) { p.staffingSignal = val; save(); render(); renderDetail(); }
+}
+
+function deleteProspect(id) {
+  if (!confirm('Remove this prospect?')) return;
+  prospects = prospects.filter(x => x.id !== id);
+  save(); closeModal('detail-modal'); render();
+}
+
+function serviceValue(s) {
+  if (s.includes('1,500')) return 1500;
+  if (s.includes('1,200')) return 1200;
+  if (s.includes('750')) return 750;
+  return 0;
+}
+
+function render() {
+  const total = prospects.length;
+  const signals = prospects.filter(p => p.staffingSignal).length;
+  const pipeline = prospects.filter(p => p.stage !== 'closed').reduce((a,p) => a + serviceValue(p.service), 0);
+  const won = prospects.filter(p => p.stage === 'closed').reduce((a,p) => a + serviceValue(p.service), 0);
+  document.getElementById('stats-bar').innerHTML = `
+    <div class="stat"><div class="stat-num">${total}</div><div class="stat-label">Prospects</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="stat-num">$${pipeline.toLocaleString()}</div><div class="stat-label">Pipeline value</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="stat-num">$${won.toLocaleString()}</div><div class="stat-label">Won</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="stat-num" style="color:var(--signal)">${signals}</div><div class="stat-label">Staffing signals</div></div>`;
+
+  document.getElementById('board').innerHTML = STAGES.map(stage => {
+    const cards = prospects.filter(p => p.stage === stage.id);
+    const cardHTML = cards.length ? cards.map(p => `
+      <div class="card" onclick="openDetail(${p.id})">
+        <div class="card-stage-bar" style="background:${stage.color}"></div>
+        <div class="card-company">${p.company}</div>
+        <div class="card-contact">${p.contact}${p.title ? ' · '+p.title : ''}</div>
+        <div class="card-meta">
+          <span class="pill pill-service">${p.service.split(' — ')[0]}</span>
+          <span class="card-value">${p.service.includes('mo') ? '$1.5k/mo' : p.service.includes('1,200') ? '$1,200' : '$750'}</span>
+        </div>
+        <div class="card-meta" style="margin-top:5px">
+          <span class="pill pill-industry">${p.industry.split(' / ')[0]}</span>
+          <span class="pill pill-industry">${p.size}</span>
+        </div>
+        ${p.staffingSignal ? `<div class="staffing-flag"><div class="staffing-dot"></div><span class="staffing-flag-text">PS staffing signal</span></div>` : ''}
+        <div class="card-date">${p.source} · ${p.date}</div>
+      </div>`).join('') : `<div class="empty-col">No prospects here</div>`;
+    return `
+      <div class="column">
+        <div class="col-header">
+          <span class="col-title" style="color:${stage.color}">${stage.label}</span>
+          <span class="col-count">${cards.length}</span>
+        </div>
+        ${cardHTML}
+      </div>`;
+  }).join('');
+}
+
+document.querySelectorAll('.modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('open'); });
+});
+
+render();
+</script>
+</body>
+</html>
