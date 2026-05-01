@@ -3,519 +3,916 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rey Coastal — Pipeline</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Rey Coastal · Pipeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --ink: #1a1814;
-    --ink2: #4a4740;
-    --ink3: #8a877f;
-    --paper: #f8f5f0;
-    --paper2: #f0ece4;
-    --paper3: #e8e3d8;
-    --gold: #b8922a;
-    --gold-light: #f5e9cc;
-    --teal: #1d6e5a;
-    --teal-light: #d4ede6;
-    --signal: #c0392b;
-    --signal-light: #faeaea;
-    --radius: 10px;
-    --font-display: 'DM Serif Display', serif;
-    --font-body: 'DM Sans', sans-serif;
+    --cream: #f5f0e8;
+    --cream2: #ede8dc;
+    --ink: #1c1a17;
+    --ink2: #4a4640;
+    --ink3: #8a857d;
+    --gold: #c9a84c;
+    --gold2: #e8c96a;
+    --teal: #3a7d74;
+    --teal2: #4a9d94;
+    --rose: #c44d4d;
+    --olive: #6b7c5a;
+    --sand: #d4c8b0;
+    --stage-prospect: #c9a84c;
+    --stage-outreach: #3a7d74;
+    --stage-discovery: #4a7ab0;
+    --stage-proposal: #7a5ab0;
+    --stage-won: #4a8a5a;
   }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
-    font-family: var(--font-body);
-    background: var(--paper);
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
     color: var(--ink);
     min-height: 100vh;
   }
 
+  /* HEADER */
   .header {
-    padding: 20px 20px 0;
-    border-bottom: 1px solid var(--paper3);
-    margin-bottom: 16px;
-    background: var(--paper);
+    background: var(--cream);
+    border-bottom: 1px solid var(--sand);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 100;
   }
 
-  .header-top {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 4px;
-  }
+  .logo-block { display: flex; flex-direction: column; gap: 2px; }
 
-  .wordmark {
-    font-family: var(--font-display);
+  .logo {
+    font-family: 'Playfair Display', serif;
     font-size: 22px;
+    font-weight: 600;
     color: var(--ink);
     letter-spacing: -0.3px;
   }
 
-  .wordmark span { color: var(--gold); }
+  .logo span { color: var(--gold); }
 
-  .header-sub {
-    font-size: 11px;
+  .logo-sub {
+    font-size: 9px;
     font-weight: 500;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
+    letter-spacing: 3px;
     color: var(--ink3);
-    margin-bottom: 14px;
+    text-transform: uppercase;
   }
-
-  .stats-bar {
-    display: flex;
-    gap: 20px;
-    padding-bottom: 14px;
-    overflow-x: auto;
-  }
-
-  .stat { display: flex; flex-direction: column; gap: 2px; min-width: fit-content; }
-  .stat-num { font-family: var(--font-display); font-size: 22px; color: var(--ink); line-height: 1; }
-  .stat-label { font-size: 10px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink3); }
-  .stat-divider { width: 1px; background: var(--paper3); align-self: stretch; }
 
   .add-btn {
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: var(--teal);
-    background: var(--teal-light);
+    background: var(--teal);
+    color: white;
     border: none;
-    padding: 7px 14px;
-    border-radius: 6px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    transition: opacity 0.15s;
-    align-self: center;
-    white-space: nowrap;
+    transition: background 0.15s;
+    letter-spacing: 0.2px;
   }
-  .add-btn:hover { opacity: 0.8; }
 
+  .add-btn:hover { background: var(--teal2); }
+
+  /* STATS BAR */
+  .stats-bar {
+    padding: 20px 32px 0;
+    display: flex;
+    gap: 40px;
+    align-items: flex-end;
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .stat-value.signal { color: var(--rose); }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: var(--ink3);
+    text-transform: uppercase;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--sand);
+  }
+
+  /* BOARD */
   .board {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(200px, 1fr));
-    gap: 10px;
-    padding: 0 16px 32px;
+    padding: 24px 32px 40px;
+    display: flex;
+    gap: 16px;
     overflow-x: auto;
+    min-height: calc(100vh - 160px);
   }
 
-  .column { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .column {
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
   .col-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 10px;
-    background: var(--paper2);
-    border-radius: var(--radius);
-    border: 1px solid var(--paper3);
-    position: sticky;
-    top: 0;
+    padding: 0 2px 10px;
+    border-bottom: 2.5px solid var(--sand);
   }
 
-  .col-title { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--ink2); }
-  .col-count { font-size: 11px; font-weight: 600; color: var(--ink3); background: var(--paper3); padding: 1px 7px; border-radius: 20px; }
+  .col-header.prospect { border-color: var(--stage-prospect); }
+  .col-header.outreach { border-color: var(--stage-outreach); }
+  .col-header.discovery { border-color: var(--stage-discovery); }
+  .col-header.proposal { border-color: var(--stage-proposal); }
+  .col-header.won { border-color: var(--stage-won); }
 
+  .col-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--ink2);
+  }
+
+  .col-count {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink3);
+    background: var(--cream2);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 80px;
+  }
+
+  /* CARD */
   .card {
-    background: #fff;
-    border: 1px solid var(--paper3);
-    border-radius: var(--radius);
-    padding: 12px;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid rgba(0,0,0,0.06);
     cursor: pointer;
-    transition: box-shadow 0.15s, transform 0.12s;
+    transition: transform 0.15s, box-shadow 0.15s;
     position: relative;
-    overflow: hidden;
-  }
-  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
-
-  .card-stage-bar { position: absolute; top: 0; left: 0; right: 0; height: 2.5px; }
-  .card-company { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3; margin-top: 4px; margin-bottom: 2px; }
-  .card-contact { font-size: 11px; color: var(--ink3); margin-bottom: 8px; }
-  .card-meta { display: flex; align-items: center; justify-content: space-between; gap: 4px; flex-wrap: wrap; }
-
-  .pill { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.3px; white-space: nowrap; }
-  .pill-service { background: var(--gold-light); color: var(--gold); }
-  .pill-industry { background: var(--paper2); color: var(--ink2); }
-
-  .card-value { font-family: var(--font-display); font-size: 14px; color: var(--ink); }
-  .card-date { font-size: 10px; color: var(--ink3); margin-top: 6px; }
-
-  .staffing-flag {
-    display: flex; align-items: center; gap: 5px;
-    margin-top: 8px; padding: 5px 8px;
-    background: var(--signal-light);
-    border-radius: 6px;
-    border: 1px solid #f5c6c4;
   }
 
-  .staffing-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--signal); flex-shrink: 0;
-    animation: pulse 1.8s infinite;
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   }
 
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-  .staffing-flag-text { font-size: 10px; font-weight: 600; color: var(--signal); letter-spacing: 0.3px; }
-
-  /* Modal */
-  .modal-bg {
-    display: none; position: fixed; inset: 0;
-    background: rgba(26,24,20,0.55); z-index: 100;
-    align-items: center; justify-content: center; padding: 16px;
+  .card-company {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
   }
-  .modal-bg.open { display: flex; }
+
+  .card-contact {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-bottom: 10px;
+  }
+
+  .card-mid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .service-badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: #fdf3dc;
+    color: #8a6a1a;
+  }
+
+  .service-badge.monthly {
+    background: #e8f4f2;
+    color: #2a5d58;
+  }
+
+  .service-badge.candidate {
+    background: #f0ecfa;
+    color: #5a3a8a;
+  }
+
+  .card-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .card-tags {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 400;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--cream2);
+    color: var(--ink2);
+  }
+
+  .emp-tag {
+    font-size: 11px;
+    color: var(--ink3);
+    font-weight: 500;
+  }
+
+  .staffing-signal {
+    background: #fde8e8;
+    border-radius: 8px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .signal-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--rose);
+    flex-shrink: 0;
+  }
+
+  .signal-text {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--rose);
+  }
+
+  .card-footer {
+    font-size: 11px;
+    color: var(--ink3);
+  }
+
+  /* LOADING STATE */
+  .loading-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink3);
+    font-size: 13px;
+    width: 100%;
+  }
+
+  .spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--sand);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 12px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(28,26,23,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
 
   .modal {
-    background: var(--paper); border-radius: 14px;
-    padding: 24px; width: 100%; max-width: 440px;
-    max-height: 90vh; overflow-y: auto;
-    border: 1px solid var(--paper3);
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    width: 520px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
   }
 
-  .modal h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 4px; }
-  .modal-sub { font-size: 12px; color: var(--ink3); margin-bottom: 20px; }
-
-  .form-row { margin-bottom: 14px; }
-  .form-label { font-size: 11px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--ink2); margin-bottom: 5px; display: block; }
-
-  .form-input, .form-select, .notes-area {
-    width: 100%; font-family: var(--font-body); font-size: 13px;
-    padding: 9px 12px; border: 1px solid var(--paper3);
-    border-radius: 7px; background: #fff; color: var(--ink);
-    outline: none; transition: border-color 0.15s;
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--ink);
   }
-  .form-input:focus, .form-select:focus, .notes-area:focus { border-color: var(--teal); }
-  .notes-area { resize: vertical; min-height: 80px; }
 
-  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-
-  .checkbox-row {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
-    padding: 10px 12px; background: var(--signal-light);
-    border-radius: 7px; border: 1px solid #f5c6c4;
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
   }
-  .checkbox-row input { cursor: pointer; accent-color: var(--signal); }
-  .checkbox-row label { font-size: 12px; font-weight: 500; color: var(--signal); cursor: pointer; }
 
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+  .form-field { display: flex; flex-direction: column; gap: 5px; }
+  .form-field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink3);
+  }
+
+  input, select, textarea {
+    border: 1px solid var(--sand);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--teal);
+  }
+
+  textarea { resize: vertical; min-height: 70px; }
+
+  .signal-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #fde8e8;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .signal-check input { width: 14px; height: 14px; margin: 0; }
+
+  .signal-check span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--rose);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--sand);
+  }
 
   .btn-cancel {
-    font-family: var(--font-body); font-size: 13px; font-weight: 500;
-    padding: 9px 18px; border: 1px solid var(--paper3);
-    border-radius: 7px; background: transparent; color: var(--ink2); cursor: pointer;
+    background: none;
+    border: 1px solid var(--sand);
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--ink2);
   }
+
   .btn-save {
-    font-family: var(--font-body); font-size: 13px; font-weight: 600;
-    padding: 9px 18px; border: none; border-radius: 7px;
-    background: var(--teal); color: #fff; cursor: pointer; transition: opacity 0.15s;
-  }
-  .btn-save:hover { opacity: 0.88; }
-
-  .detail-section { margin-bottom: 14px; }
-  .detail-section-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--ink3); margin-bottom: 5px; }
-  .detail-value { font-size: 14px; color: var(--ink); }
-
-  .stage-select-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
-  .stage-chip {
-    font-size: 11px; font-weight: 600; padding: 4px 12px;
-    border-radius: 20px; border: 1px solid var(--paper3);
-    background: var(--paper2); color: var(--ink2); cursor: pointer; transition: all 0.12s;
-  }
-  .stage-chip.active { background: var(--teal); color: #fff; border-color: var(--teal); }
-
-  .empty-col {
-    border: 1.5px dashed var(--paper3); border-radius: var(--radius);
-    padding: 16px 10px; text-align: center;
-    font-size: 11px; color: var(--ink3); letter-spacing: 0.3px;
+    background: var(--teal);
+    border: none;
+    border-radius: 8px;
+    padding: 9px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: background 0.15s;
   }
 
-  .delete-btn {
-    font-size: 11px; font-weight: 500; color: var(--signal);
-    background: none; border: none; cursor: pointer;
-    padding: 0; text-decoration: underline; opacity: 0.7;
+  .btn-save:hover { background: var(--teal2); }
+
+  .btn-delete {
+    background: none;
+    border: 1px solid #f0a0a0;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--rose);
+    margin-right: auto;
   }
-  .delete-btn:hover { opacity: 1; }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--ink3);
+    line-height: 1;
+  }
+
+  .config-banner {
+    background: #fff8e8;
+    border: 1px solid var(--gold);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 16px 32px 0;
+    font-size: 13px;
+    color: #7a5a10;
+    display: none;
+  }
+
+  .config-banner.show { display: block; }
+  .config-banner strong { font-weight: 500; }
+
+  .move-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cream2);
+  }
+
+  .move-btn {
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--sand);
+    background: var(--cream);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink2);
+    transition: all 0.12s;
+  }
+
+  .move-btn:hover { background: var(--teal); color: white; border-color: var(--teal); }
+  .move-btn.active { background: var(--teal); color: white; border-color: var(--teal); }
 </style>
 </head>
 <body>
 
+<!-- CONFIG BANNER -->
+<div class="config-banner" id="configBanner">
+  <strong>Setup required:</strong> Open this file, find <code>SCRIPT_URL</code> near the top, and replace it with your deployed Apps Script URL. <a href="https://github.com/swrey-png/reycoastal-pipeline" target="_blank">See setup guide →</a>
+</div>
+
+<!-- HEADER -->
 <div class="header">
-  <div class="header-top">
-    <div class="wordmark">Rey<span>Coastal</span></div>
-    <button class="add-btn" onclick="openAdd()">+ Add prospect</button>
+  <div class="logo-block">
+    <div class="logo">Rey<span>Coastal</span></div>
+    <div class="logo-sub">Business Development Pipeline</div>
   </div>
-  <div class="header-sub">Business development pipeline</div>
-  <div class="stats-bar" id="stats-bar"></div>
+  <button class="add-btn" onclick="openModal()">+ Add prospect</button>
 </div>
 
-<div class="board" id="board"></div>
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-value" id="statProspects">—</div>
+    <div class="stat-label">Prospects</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat">
+    <div class="stat-value" id="statValue">—</div>
+    <div class="stat-label">Pipeline Value</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat">
+    <div class="stat-value" id="statWon">—</div>
+    <div class="stat-label">Won</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat">
+    <div class="stat-value signal" id="statSignals">—</div>
+    <div class="stat-label">Staffing Signals</div>
+  </div>
+</div>
 
-<!-- Add modal -->
-<div class="modal-bg" id="add-modal">
+<!-- BOARD -->
+<div class="board" id="board">
+  <div class="loading-state" style="width:100%">
+    <div class="spinner"></div>
+    Loading pipeline...
+  </div>
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h3>New prospect</h3>
-    <div class="modal-sub">Add a company to the pipeline</div>
-    <div class="form-row">
-      <label class="form-label">Company name</label>
-      <input class="form-input" id="f-company" placeholder="Acme Corp">
-    </div>
-    <div class="form-row-2">
-      <div>
-        <label class="form-label">Contact name</label>
-        <input class="form-input" id="f-contact" placeholder="Jane Smith">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-title" id="modalTitle">Add prospect</div>
+    <input type="hidden" id="editId">
+
+    <div class="form-grid">
+      <div class="form-field full">
+        <label>Company name</label>
+        <input type="text" id="fCompany" placeholder="Acme Corp">
       </div>
-      <div>
-        <label class="form-label">Title</label>
-        <input class="form-input" id="f-title" placeholder="HR Manager">
+      <div class="form-field">
+        <label>Contact name</label>
+        <input type="text" id="fContact" placeholder="Jane Smith">
       </div>
-    </div>
-    <div class="form-row-2">
-      <div>
-        <label class="form-label">Industry</label>
-        <select class="form-select" id="f-industry">
-          <option value="Light Manufacturing">Light Manufacturing</option>
-          <option value="Distribution / Logistics">Distribution / Logistics</option>
-          <option value="Admin / Professional Services">Admin / Professional Services</option>
-          <option value="Finance / Accounting">Finance / Accounting</option>
-          <option value="Technology Services">Technology Services</option>
-          <option value="Healthcare Admin">Healthcare Admin</option>
-          <option value="Retail Operations">Retail Operations</option>
-          <option value="Other">Other</option>
+      <div class="form-field">
+        <label>Title</label>
+        <input type="text" id="fTitle" placeholder="HR Manager">
+      </div>
+      <div class="form-field">
+        <label>Industry</label>
+        <select id="fIndustry">
+          <option value="">Select industry</option>
+          <option>Light Manufacturing</option>
+          <option>Distribution</option>
+          <option>Admin</option>
+          <option>Finance</option>
+          <option>Logistics</option>
+          <option>Other</option>
         </select>
       </div>
-      <div>
-        <label class="form-label">Employees</label>
-        <select class="form-select" id="f-size">
-          <option value="5–25">5–25</option>
-          <option value="26–75">26–75</option>
-          <option value="76–200">76–200</option>
-          <option value="201–400">201–400</option>
-          <option value="400+">400+</option>
+      <div class="form-field">
+        <label>Employees</label>
+        <select id="fEmployees">
+          <option value="">Select range</option>
+          <option>5–25</option>
+          <option>26–75</option>
+          <option>76–200</option>
+          <option>201–400</option>
+          <option>401+</option>
         </select>
       </div>
-    </div>
-    <div class="form-row-2">
-      <div>
-        <label class="form-label">Service tier</label>
-        <select class="form-select" id="f-service">
-          <option value="Hiring Audit — $750">Hiring Audit — $750</option>
-          <option value="Candidate Eval — $1,200">Candidate Eval — $1,200</option>
-          <option value="Monthly Advisory — $1,500/mo">Monthly Advisory — $1,500/mo</option>
-          <option value="TBD">TBD</option>
+      <div class="form-field">
+        <label>Service tier</label>
+        <select id="fService">
+          <option value="">Select service</option>
+          <option value="Hiring Audit">Hiring Audit — $750</option>
+          <option value="Candidate Eval">Candidate Eval — $1,200</option>
+          <option value="Monthly Advisory">Monthly Advisory — $1,500/mo</option>
         </select>
       </div>
-      <div>
-        <label class="form-label">Source</label>
-        <select class="form-select" id="f-source">
-          <option value="LinkedIn outreach">LinkedIn outreach</option>
-          <option value="Referral">Referral</option>
-          <option value="Inbound (website)">Inbound (website)</option>
-          <option value="Event / networking">Event / networking</option>
-          <option value="Cold outreach">Cold outreach</option>
+      <div class="form-field">
+        <label>Stage</label>
+        <select id="fStage">
+          <option value="prospect">Prospect</option>
+          <option value="outreach">Outreach</option>
+          <option value="discovery">Discovery</option>
+          <option value="proposal">Proposal</option>
+          <option value="won">Closed / Won</option>
         </select>
       </div>
+      <div class="form-field">
+        <label>Lead source</label>
+        <input type="text" id="fSource" placeholder="LinkedIn outreach">
+      </div>
+      <div class="form-field full">
+        <label>Notes</label>
+        <textarea id="fNotes" placeholder="Any relevant context..."></textarea>
+      </div>
+      <div class="form-field full">
+        <div class="signal-check" onclick="toggleSignal()">
+          <input type="checkbox" id="fSignal">
+          <span>PS staffing signal — flag for PrideStaff San Diego deal flow</span>
+        </div>
+      </div>
     </div>
-    <div class="checkbox-row">
-      <input type="checkbox" id="f-staffing">
-      <label for="f-staffing">🚨 PrideStaff staffing signal — company likely hires in core position types</label>
+
+    <div class="move-btns" id="moveBtns" style="display:none">
+      <span style="font-size:11px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;font-weight:500;width:100%;margin-bottom:4px;">Move to stage</span>
+      <button class="move-btn" onclick="quickMove('prospect')">Prospect</button>
+      <button class="move-btn" onclick="quickMove('outreach')">Outreach</button>
+      <button class="move-btn" onclick="quickMove('discovery')">Discovery</button>
+      <button class="move-btn" onclick="quickMove('proposal')">Proposal</button>
+      <button class="move-btn" onclick="quickMove('won')">Closed / Won</button>
     </div>
-    <div class="form-row">
-      <label class="form-label">Notes</label>
-      <textarea class="notes-area" id="f-notes" placeholder="Pain points, timing, referral context..."></textarea>
-    </div>
+
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('add-modal')">Cancel</button>
-      <button class="btn-save" onclick="saveProspect()">Add to pipeline</button>
+      <button class="btn-delete" id="deleteBtn" onclick="deleteProspect()" style="display:none">Delete</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveProspect()">Save</button>
     </div>
   </div>
-</div>
-
-<!-- Detail modal -->
-<div class="modal-bg" id="detail-modal">
-  <div class="modal" id="detail-content"></div>
 </div>
 
 <script>
+// ─── CONFIG ───────────────────────────────────────────────
+const SCRIPT_URL = 'const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyttfGLxCgKxJSUVu_AOfnXXtB9Z2JAeESZTRUbgKHF2PHqNdPIu4PwWPBNfa0Te1h-/exec';';
+// Replace above with your deployed Apps Script web app URL
+// Format: https://script.google.com/macros/s/XXXX/exec
+// ──────────────────────────────────────────────────────────
+
 const STAGES = [
-  { id: 'prospect',  label: 'Prospect',     color: '#b8922a' },
-  { id: 'outreach',  label: 'Outreach',     color: '#1d6e5a' },
-  { id: 'discovery', label: 'Discovery',    color: '#1a6b9a' },
-  { id: 'proposal',  label: 'Proposal',     color: '#7a4a9e' },
-  { id: 'closed',    label: 'Closed / Won', color: '#2a7a4a' },
+  { id: 'prospect',  label: 'Prospect' },
+  { id: 'outreach',  label: 'Outreach' },
+  { id: 'discovery', label: 'Discovery' },
+  { id: 'proposal',  label: 'Proposal' },
+  { id: 'won',       label: 'Closed / Won' }
 ];
 
-const SEED = [
-  { id:1, company:'Meridian Packaging', contact:'Laura Chen', title:'Ops Director', industry:'Light Manufacturing', size:'76–200', service:'Hiring Audit — $750', source:'LinkedIn outreach', stage:'discovery', staffingSignal:true, notes:'Hiring 3 roles at once, no process. Mentioned bad hires last year.', date:'Apr 18' },
-  { id:2, company:'Torrey Pines Logistics', contact:'Marcus Webb', title:'VP HR', industry:'Distribution / Logistics', size:'76–200', service:'Monthly Advisory — $1,500/mo', source:'Referral', stage:'proposal', staffingSignal:true, notes:'Fast-growing. 20+ warehouse hires per year. Discovery call went well.', date:'Apr 20' },
-  { id:3, company:'Coastal Credit Union', contact:'Sandra Flores', title:'HR Manager', industry:'Finance / Accounting', size:'26–75', service:'Hiring Audit — $750', source:'Inbound (website)', stage:'outreach', staffingSignal:false, notes:'Submitted Google Form intake. Follow up Tuesday.', date:'Apr 22' },
-  { id:4, company:'Sunbelt Assemblies', contact:'Derek Tran', title:'Plant Manager', industry:'Light Manufacturing', size:'201–400', service:'Candidate Eval — $1,200', source:'Cold outreach', stage:'prospect', staffingSignal:true, notes:'Found on LinkedIn. Assembly + QC hiring year-round.', date:'Apr 21' },
-  { id:5, company:'Pacific Admin Group', contact:'Rena Okafor', title:'CEO', industry:'Admin / Professional Services', size:'5–25', service:'Hiring Audit — $750', source:'Event / networking', stage:'closed', staffingSignal:false, notes:'Audit delivered Apr 15. Strong results. Advisory upsell opportunity.', date:'Apr 15' },
-  { id:6, company:'Vista Distribution', contact:'Tom Harlow', title:'GM', industry:'Distribution / Logistics', size:'76–200', service:'Hiring Audit — $750', source:'LinkedIn outreach', stage:'prospect', staffingSignal:true, notes:'Forklift and receiving roles open constantly. Great PS fit.', date:'Apr 23' },
-];
+const SERVICE_VALUES = {
+  'Hiring Audit': 750,
+  'Candidate Eval': 1200,
+  'Monthly Advisory': 1500
+};
 
-let prospects = JSON.parse(localStorage.getItem('rc_pipeline') || 'null') || SEED;
-let nextId = Math.max(...prospects.map(p => p.id)) + 1;
-let activeDetail = null;
+let prospects = [];
+let editingId = null;
 
-function save() {
-  try { localStorage.setItem('rc_pipeline', JSON.stringify(prospects)); } catch(e) {}
-}
+// ─── INIT ─────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  if (SCRIPT_URL === 'const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyttfGLxCgKxJSUVu_AOfnXXtB9Z2JAeESZTRUbgKHF2PHqNdPIu4PwWPBNfa0Te1h-/exec';') {
+    document.getElementById('configBanner').classList.add('show');
+    loadDemo();
+  } else {
+    loadProspects();
+  }
+});
 
-function openAdd() { document.getElementById('add-modal').classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-function saveProspect() {
-  const company = document.getElementById('f-company').value.trim();
-  if (!company) { document.getElementById('f-company').focus(); return; }
-  prospects.push({
-    id: nextId++,
-    company,
-    contact: document.getElementById('f-contact').value.trim(),
-    title: document.getElementById('f-title').value.trim(),
-    industry: document.getElementById('f-industry').value,
-    size: document.getElementById('f-size').value,
-    service: document.getElementById('f-service').value,
-    source: document.getElementById('f-source').value,
-    stage: 'prospect',
-    staffingSignal: document.getElementById('f-staffing').checked,
-    notes: document.getElementById('f-notes').value.trim(),
-    date: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' }),
-  });
-  save();
-  closeModal('add-modal');
-  ['f-company','f-contact','f-title','f-notes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-staffing').checked = false;
+function loadDemo() {
+  prospects = [
+    { id:'p1', company:'Sunbelt Assemblies', contact:'Derek Tran', title:'Plant Manager', stage:'prospect', service:'Candidate Eval', value:1200, industry:'Light Manufacturing', employees:'201–400', staffingSignal:'yes', source:'Cold outreach', dateAdded:'Apr 21', notes:'' },
+    { id:'p2', company:'Vista Distribution', contact:'Tom Harlow', title:'GM', stage:'prospect', service:'Hiring Audit', value:750, industry:'Distribution', employees:'76–200', staffingSignal:'yes', source:'LinkedIn outreach', dateAdded:'Apr 23', notes:'' },
+    { id:'p3', company:'Coastal Credit Union', contact:'Sandra Flores', title:'HR Manager', stage:'outreach', service:'Hiring Audit', value:750, industry:'Finance', employees:'26–75', staffingSignal:'no', source:'Inbound (website)', dateAdded:'Apr 22', notes:'' },
+    { id:'p4', company:'Meridian Packaging', contact:'Laura Chen', title:'Ops Director', stage:'discovery', service:'Hiring Audit', value:750, industry:'Light Manufacturing', employees:'76–200', staffingSignal:'yes', source:'LinkedIn outreach', dateAdded:'Apr 18', notes:'' },
+    { id:'p5', company:'Torrey Pines Logistics', contact:'Marcus Webb', title:'VP HR', stage:'proposal', service:'Monthly Advisory', value:1500, industry:'Distribution', employees:'76–200', staffingSignal:'yes', source:'Referral', dateAdded:'Apr 20', notes:'' },
+    { id:'p6', company:'Pacific Admin Group', contact:'Rena Okafor', title:'CEO', stage:'won', service:'Hiring Audit', value:750, industry:'Admin', employees:'5–25', staffingSignal:'no', source:'Event / networking', dateAdded:'Apr 15', notes:'' }
+  ];
   render();
 }
 
-function openDetail(id) {
-  activeDetail = id;
-  renderDetail();
-  document.getElementById('detail-modal').classList.add('open');
+async function loadProspects() {
+  try {
+    const res = await fetch(SCRIPT_URL + '?action=getAll');
+    const data = await res.json();
+    prospects = data.prospects || [];
+    render();
+  } catch (e) {
+    console.error(e);
+    document.getElementById('board').innerHTML = '<div class="loading-state">Failed to load — check your Apps Script URL.</div>';
+  }
 }
 
-function renderDetail() {
-  const p = prospects.find(x => x.id === activeDetail);
-  if (!p) return;
-  const chips = STAGES.map(s =>
-    `<span class="stage-chip ${s.id === p.stage ? 'active' : ''}" onclick="setStage(${p.id},'${s.id}')">${s.label}</span>`
-  ).join('');
-  document.getElementById('detail-content').innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
-      <div>
-        <h3>${p.company}</h3>
-        <div style="font-size:12px;color:var(--ink3)">${p.contact}${p.title ? ' · '+p.title : ''}</div>
+// ─── RENDER ───────────────────────────────────────────────
+function render() {
+  updateStats();
+  const board = document.getElementById('board');
+  board.innerHTML = '';
+  STAGES.forEach(stage => {
+    const cards = prospects.filter(p => p.stage === stage.id);
+    const col = document.createElement('div');
+    col.className = 'column';
+    col.innerHTML = `
+      <div class="col-header ${stage.id}">
+        <span class="col-title">${stage.label}</span>
+        <span class="col-count">${cards.length}</span>
       </div>
-      <button class="btn-cancel" onclick="closeModal('detail-modal')" style="padding:6px 12px;font-size:12px">Close</button>
-    </div>
-    ${p.staffingSignal ? `<div class="staffing-flag" style="margin-bottom:14px"><div class="staffing-dot"></div><span class="staffing-flag-text">PrideStaff staffing signal — core position types likely</span></div>` : ''}
-    <div class="detail-section">
-      <div class="detail-section-label">Move stage</div>
-      <div class="stage-select-row">${chips}</div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-      <div class="detail-section"><div class="detail-section-label">Industry</div><div class="detail-value">${p.industry}</div></div>
-      <div class="detail-section"><div class="detail-section-label">Size</div><div class="detail-value">${p.size} employees</div></div>
-      <div class="detail-section"><div class="detail-section-label">Service</div><div class="detail-value" style="font-size:12px">${p.service}</div></div>
-      <div class="detail-section"><div class="detail-section-label">Source</div><div class="detail-value" style="font-size:12px">${p.source}</div></div>
-    </div>
-    <div class="form-row">
-      <label class="form-label">Notes</label>
-      <textarea class="notes-area" id="detail-notes" oninput="updateNotes(${p.id},this.value)">${p.notes||''}</textarea>
-    </div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
-      <div class="checkbox-row" style="margin:0;flex:1;margin-right:12px">
-        <input type="checkbox" id="detail-staffing" ${p.staffingSignal?'checked':''} onchange="toggleStaffing(${p.id},this.checked)">
-        <label for="detail-staffing" style="font-size:11px">PrideStaff staffing signal</label>
+      <div class="cards-container" id="col-${stage.id}">
+        ${cards.length === 0 ? '<div style="height:20px"></div>' : ''}
+        ${cards.map(p => renderCard(p)).join('')}
+      </div>`;
+    board.appendChild(col);
+  });
+}
+
+function renderCard(p) {
+  const val = formatValue(p.service, p.value);
+  const signal = (p.staffingSignal === 'yes' || p.staffingSignal === true);
+  const svcClass = p.service === 'Monthly Advisory' ? 'monthly' : p.service === 'Candidate Eval' ? 'candidate' : '';
+  return `
+    <div class="card" onclick="openEdit('${p.id}')">
+      <div class="card-company">${p.company}</div>
+      <div class="card-contact">${p.contact} · ${p.title}</div>
+      <div class="card-mid">
+        <span class="service-badge ${svcClass}">${p.service}</span>
+        <span class="card-value">${val}</span>
       </div>
-      <button class="delete-btn" onclick="deleteProspect(${p.id})">Remove</button>
+      <div class="card-tags">
+        <span class="tag">${p.industry}</span>
+        <span class="emp-tag">${p.employees}</span>
+      </div>
+      ${signal ? `<div class="staffing-signal"><div class="signal-dot"></div><span class="signal-text">PS staffing signal</span></div>` : ''}
+      <div class="card-footer">${p.source} · ${p.dateAdded}</div>
     </div>`;
 }
 
-function setStage(id, stage) {
-  const p = prospects.find(x => x.id === id);
-  if (p) { p.stage = stage; save(); render(); renderDetail(); }
+function formatValue(service, value) {
+  if (service === 'Monthly Advisory') return '$1.5k/mo';
+  return '$' + Number(value).toLocaleString();
 }
 
-function updateNotes(id, val) {
-  const p = prospects.find(x => x.id === id);
-  if (p) { p.notes = val; save(); }
-}
-
-function toggleStaffing(id, val) {
-  const p = prospects.find(x => x.id === id);
-  if (p) { p.staffingSignal = val; save(); render(); renderDetail(); }
-}
-
-function deleteProspect(id) {
-  if (!confirm('Remove this prospect?')) return;
-  prospects = prospects.filter(x => x.id !== id);
-  save(); closeModal('detail-modal'); render();
-}
-
-function serviceValue(s) {
-  if (s.includes('1,500')) return 1500;
-  if (s.includes('1,200')) return 1200;
-  if (s.includes('750')) return 750;
-  return 0;
-}
-
-function render() {
+function updateStats() {
   const total = prospects.length;
-  const signals = prospects.filter(p => p.staffingSignal).length;
-  const pipeline = prospects.filter(p => p.stage !== 'closed').reduce((a,p) => a + serviceValue(p.service), 0);
-  const won = prospects.filter(p => p.stage === 'closed').reduce((a,p) => a + serviceValue(p.service), 0);
-  document.getElementById('stats-bar').innerHTML = `
-    <div class="stat"><div class="stat-num">${total}</div><div class="stat-label">Prospects</div></div>
-    <div class="stat-divider"></div>
-    <div class="stat"><div class="stat-num">$${pipeline.toLocaleString()}</div><div class="stat-label">Pipeline value</div></div>
-    <div class="stat-divider"></div>
-    <div class="stat"><div class="stat-num">$${won.toLocaleString()}</div><div class="stat-label">Won</div></div>
-    <div class="stat-divider"></div>
-    <div class="stat"><div class="stat-num" style="color:var(--signal)">${signals}</div><div class="stat-label">Staffing signals</div></div>`;
+  const pipelineVal = prospects
+    .filter(p => p.stage !== 'won')
+    .reduce((sum, p) => sum + Number(p.value || 0), 0);
+  const wonVal = prospects
+    .filter(p => p.stage === 'won')
+    .reduce((sum, p) => sum + Number(p.value || 0), 0);
+  const signals = prospects.filter(p => p.staffingSignal === 'yes' || p.staffingSignal === true).length;
 
-  document.getElementById('board').innerHTML = STAGES.map(stage => {
-    const cards = prospects.filter(p => p.stage === stage.id);
-    const cardHTML = cards.length ? cards.map(p => `
-      <div class="card" onclick="openDetail(${p.id})">
-        <div class="card-stage-bar" style="background:${stage.color}"></div>
-        <div class="card-company">${p.company}</div>
-        <div class="card-contact">${p.contact}${p.title ? ' · '+p.title : ''}</div>
-        <div class="card-meta">
-          <span class="pill pill-service">${p.service.split(' — ')[0]}</span>
-          <span class="card-value">${p.service.includes('mo') ? '$1.5k/mo' : p.service.includes('1,200') ? '$1,200' : '$750'}</span>
-        </div>
-        <div class="card-meta" style="margin-top:5px">
-          <span class="pill pill-industry">${p.industry.split(' / ')[0]}</span>
-          <span class="pill pill-industry">${p.size}</span>
-        </div>
-        ${p.staffingSignal ? `<div class="staffing-flag"><div class="staffing-dot"></div><span class="staffing-flag-text">PS staffing signal</span></div>` : ''}
-        <div class="card-date">${p.source} · ${p.date}</div>
-      </div>`).join('') : `<div class="empty-col">No prospects here</div>`;
-    return `
-      <div class="column">
-        <div class="col-header">
-          <span class="col-title" style="color:${stage.color}">${stage.label}</span>
-          <span class="col-count">${cards.length}</span>
-        </div>
-        ${cardHTML}
-      </div>`;
-  }).join('');
+  document.getElementById('statProspects').textContent = total;
+  document.getElementById('statValue').textContent = '$' + pipelineVal.toLocaleString();
+  document.getElementById('statWon').textContent = '$' + wonVal.toLocaleString();
+  document.getElementById('statSignals').textContent = signals;
 }
 
-document.querySelectorAll('.modal-bg').forEach(bg => {
-  bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('open'); });
-});
+// ─── MODAL ────────────────────────────────────────────────
+function openModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add prospect';
+  document.getElementById('editId').value = '';
+  document.getElementById('deleteBtn').style.display = 'none';
+  document.getElementById('moveBtns').style.display = 'none';
+  clearForm();
+  document.getElementById('modalOverlay').classList.add('open');
+}
 
-render();
+function openEdit(id) {
+  const p = prospects.find(x => x.id === id);
+  if (!p) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = p.company;
+  document.getElementById('editId').value = id;
+  document.getElementById('deleteBtn').style.display = 'block';
+  document.getElementById('moveBtns').style.display = 'flex';
+
+  // Highlight current stage button
+  document.querySelectorAll('.move-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase().replace(' / won','') === p.stage || 
+      (p.stage === 'won' && btn.textContent === 'Closed / Won'));
+  });
+
+  document.getElementById('fCompany').value = p.company || '';
+  document.getElementById('fContact').value = p.contact || '';
+  document.getElementById('fTitle').value = p.title || '';
+  document.getElementById('fIndustry').value = p.industry || '';
+  document.getElementById('fEmployees').value = p.employees || '';
+  document.getElementById('fService').value = p.service || '';
+  document.getElementById('fStage').value = p.stage || 'prospect';
+  document.getElementById('fSource').value = p.source || '';
+  document.getElementById('fNotes').value = p.notes || '';
+  document.getElementById('fSignal').checked = p.staffingSignal === 'yes' || p.staffingSignal === true;
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  editingId = null;
+}
+
+function clearForm() {
+  ['fCompany','fContact','fTitle','fSource','fNotes'].forEach(id => document.getElementById(id).value = '');
+  ['fIndustry','fEmployees','fService'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fStage').value = 'prospect';
+  document.getElementById('fSignal').checked = false;
+}
+
+function toggleSignal() {
+  const cb = document.getElementById('fSignal');
+  cb.checked = !cb.checked;
+}
+
+async function saveProspect() {
+  const data = {
+    id: editingId,
+    company: document.getElementById('fCompany').value.trim(),
+    contact: document.getElementById('fContact').value.trim(),
+    title: document.getElementById('fTitle').value.trim(),
+    stage: document.getElementById('fStage').value,
+    service: document.getElementById('fService').value,
+    value: SERVICE_VALUES[document.getElementById('fService').value] || 0,
+    industry: document.getElementById('fIndustry').value,
+    employees: document.getElementById('fEmployees').value,
+    staffingSignal: document.getElementById('fSignal').checked,
+    source: document.getElementById('fSource').value.trim(),
+    notes: document.getElementById('fNotes').value.trim()
+  };
+
+  if (!data.company) { alert('Company name is required.'); return; }
+
+  if (SCRIPT_URL === 'const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyttfGLxCgKxJSUVu_AOfnXXtB9Z2JAeESZTRUbgKHF2PHqNdPIu4PwWPBNfa0Te1h-/exec';') {
+    // Demo mode — update local array
+    if (editingId) {
+      const idx = prospects.findIndex(p => p.id === editingId);
+      if (idx !== -1) prospects[idx] = { ...prospects[idx], ...data, staffingSignal: data.staffingSignal ? 'yes' : 'no' };
+    } else {
+      prospects.push({ ...data, id: 'p_' + Date.now(), dateAdded: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}), staffingSignal: data.staffingSignal ? 'yes' : 'no' });
+    }
+    closeModal();
+    render();
+    return;
+  }
+
+  try {
+    const action = editingId ? 'update' : 'add';
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action, data })
+    });
+    closeModal();
+    await loadProspects();
+  } catch (e) {
+    alert('Save failed — check connection.');
+  }
+}
+
+async function deleteProspect() {
+  if (!editingId || !confirm('Delete this prospect?')) return;
+
+  if (SCRIPT_URL === 'const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyttfGLxCgKxJSUVu_AOfnXXtB9Z2JAeESZTRUbgKHF2PHqNdPIu4PwWPBNfa0Te1h-/exec';') {
+    prospects = prospects.filter(p => p.id !== editingId);
+    closeModal();
+    render();
+    return;
+  }
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'delete', id: editingId })
+    });
+    closeModal();
+    await loadProspects();
+  } catch (e) {
+    alert('Delete failed.');
+  }
+}
+
+async function quickMove(stage) {
+  if (!editingId) return;
+  document.getElementById('fStage').value = stage;
+  document.querySelectorAll('.move-btn').forEach(btn => {
+    btn.classList.toggle('active', 
+      btn.textContent === stage || 
+      (stage === 'won' && btn.textContent === 'Closed / Won') ||
+      btn.textContent.toLowerCase() === stage
+    );
+  });
+
+  if (SCRIPT_URL === 'const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyttfGLxCgKxJSUVu_AOfnXXtB9Z2JAeESZTRUbgKHF2PHqNdPIu4PwWPBNfa0Te1h-/exec';') {
+    const idx = prospects.findIndex(p => p.id === editingId);
+    if (idx !== -1) prospects[idx].stage = stage;
+    render();
+    return;
+  }
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'move', id: editingId, stage })
+    });
+    await loadProspects();
+  } catch(e) {}
+}
+
+// Close modal on overlay click
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
 </script>
 </body>
 </html>
