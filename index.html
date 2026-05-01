@@ -663,13 +663,8 @@ let editingId = null;
 
 // ─── INIT ─────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
-  if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbyttfGLxCgKxJSUVu_AOfnXXtB9Z2JAeESZTRUbgKHF2PHqNdPIu4PwWPBNfa0Te1h-/exec') {
-    document.getElementById('configBanner').classList.add('show');
-    loadDemo();
-  } else {
     loadProspects();
-  }
-});
+  });
 
 function loadDemo() {
   prospects = [
@@ -855,7 +850,7 @@ async function saveProspect() {
 
   if (!data.company) { alert('Company name is required.'); return; }
 
-  if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbyttfGLxCgKxJSUVu_AOfnXXtB9Z2JAeESZTRUbgKHF2PHqNdPIu4PwWPBNfa0Te1h-/exec') {
+  if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
     // Demo mode — update local array
     if (editingId) {
       const idx = prospects.findIndex(p => p.id === editingId);
@@ -884,7 +879,7 @@ async function saveProspect() {
 async function deleteProspect() {
   if (!editingId || !confirm('Delete this prospect?')) return;
 
-  if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbyttfGLxCgKxJSUVu_AOfnXXtB9Z2JAeESZTRUbgKHF2PHqNdPIu4PwWPBNfa0Te1h-/exec') {
+  if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
     prospects = prospects.filter(p => p.id !== editingId);
     closeModal();
     render();
@@ -914,7 +909,7 @@ async function quickMove(stage) {
     );
   });
 
-  if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbyttfGLxCgKxJSUVu_AOfnXXtB9Z2JAeESZTRUbgKHF2PHqNdPIu4PwWPBNfa0Te1h-/exec') {
+  if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
     const idx = prospects.findIndex(p => p.id === editingId);
     if (idx !== -1) prospects[idx].stage = stage;
     render();
